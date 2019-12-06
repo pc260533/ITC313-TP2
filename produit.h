@@ -27,7 +27,7 @@ public:
     void setPrixUnitaire(double prixUnitaire);
 
     friend std::ostream& operator<< (std::ostream& out, const Produit &produit){
-        out << produit.getTitreProduit() << " " << std::to_string(produit.getQuantiteDisponibleProduit()) << " " << std::to_string(produit.getPrixUnitaire()) << std::endl;
+        out << "Nom produit : " << produit.getTitreProduit() << " Quantite disponible : " << std::to_string(produit.getQuantiteDisponibleProduit()) << " Prix unitaire : " << std::to_string(produit.getPrixUnitaire()) << std::endl;
         return out;
     }
 };

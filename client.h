@@ -27,13 +27,14 @@ public:
     std::string getNomClient() const;
     void setNomClient(std::string prenomClient);
     std::vector<Produit*> getListeProduitsSelectionnes() const;
+    std::vector<int> getListeQuantitesProduitsSelectionnes() const;
     void ajouterProduitAuPanier(Produit *produit);
     void viderLePanier();
     void modifierQuantiteProduitSelectionne(std::string nomProduit, int nombreDeProduits);
     void supprimerProduit(std::string nomProduit);
 
     friend std::ostream& operator<< (std::ostream& out, const Client &client){
-        out << std::to_string(client.getIdentifiantClient()) << " " << client.getPrenomClient() << " " << client.getNomClient() << std::endl;
+        out << "Identifiant Client : " << std::to_string(client.getIdentifiantClient()) << " Prenom : " << client.getPrenomClient() << " Nom : " << client.getNomClient() << std::endl;
         out << "La liste des produits du panier sont : " << std::endl;
         for (int i = 0; i < client.listeProduitsSelectionnes.size(); i++) {
             out << "Quantite : " << client.listeQuantitesProduitsSelectionnes.at(i) << " " << *client.listeProduitsSelectionnes.at(i);

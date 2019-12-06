@@ -20,7 +20,18 @@ Client *Magasin::getClientAvecNomClient(std::string nomClient) {
     return res;
 }
 
-Magasin::Magasin() : compteurClients(0) {
+Commande *Magasin::getCommandeAvecIdentifiantCommande(int identifiantCommande) {
+    Commande *res = nullptr;
+    for (Commande *commande : this->listeCommandes) {
+        if (commande->getIdentifiantCommande() == identifiantCommande) {
+            res = commande;
+        }
+    }
+    return res;
+}
+
+Magasin::Magasin()
+    : listeProduits(std::vector<Produit*>()), listeClients(std::vector<Client*>()), listeCommandes(std::vector<Commande*>()), compteurClients(0), compteurCommandes(0) {
 
 }
 
@@ -47,7 +58,7 @@ void Magasin::afficherListeProduits() {
     }
 }
 
-void Magasin::affcherProduitAvecNom(std::string nomProduit) {
+void Magasin::afficherProduitAvecNom(std::string nomProduit) {
     std::cout << "Le produit " << nomProduit << " est :" << std::endl;
     for (Produit *produit : this->listeProduits) {
         if (produit->getTitreProduit() == nomProduit) {
@@ -112,5 +123,36 @@ void Magasin::modifierQuantiteProduitDansPanierClient(std::string nomProduit, in
     Client *client = this->getClientAvecNomClient(nomClient);
     if (client) {
         client->modifierQuantiteProduitSelectionne(nomProduit, nouvelleQuantiteProduit);
+    }
+}
+
+void Magasin::validerCommandeDUnClient(std::string nomClient) {
+    Client *client = this->getClientAvecNomClient(nomClient);
+    if (client) {
+        this->listeCommandes.push_back(new Commande(this->compteurCommandes, client, client->getListeProduitsSelectionnes(), client->getListeQuantitesProduitsSelectionnes()));
+        this->compteurCommandes++;
+    }
+}
+
+void Magasin::mettreAJourStatutCommande(int identifiantCommande) {
+    Commande* commande = this->getCommandeAvecIdentifiantCommande(identifiantCommande);
+    if (commande) {
+        commande->setStatutLivreeCommande(true);
+    }
+}
+
+void Magasin::afficherListeCommandes() {
+    std::cout << "La liste des commandes est :" << std::endl;
+    for (Commande *commande : this->listeCommandes) {
+        std::cout << "La commande est : " << *commande << std::endl;
+    }
+}
+
+void Magasin::afficherCommandeAvecNom(std::string nomClient) {
+    std::cout << "La liste des commandes dont le nom du client est " << nomClient << " est :" << std::endl;
+    for (Commande *commande : this->listeCommandes) {
+        if (commande->getClientCommande()->getNomClient() == nomClient) {
+            std::cout << "La commande est : " << *commande << std::endl;
+        }
     }
 }

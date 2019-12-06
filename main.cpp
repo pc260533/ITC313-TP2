@@ -21,7 +21,7 @@ int main() {
     magasin.ajouterProduit(new Produit("NomProduit2", "DescriptionProduit2", 2, 2.0));
     magasin.afficherListeProduits();
     magasin.mettreAJourQuantiteDisponibleProduitAvecNom("NomProduit1", 10);
-    magasin.affcherProduitAvecNom("NomProduit1");
+    magasin.afficherProduitAvecNom("NomProduit1");
     */
 
     /* Question 4
@@ -71,7 +71,25 @@ int main() {
     delete produit2;
     */
 
-    /* Question 7 */
+    /* Question 7
+    Magasin magasin;
+    magasin.ajouterProduit(new Produit("NomProduit1", "DescriptionProduit1", 2, 1.0));
+    magasin.ajouterProduit(new Produit("NomProduit2", "DescriptionProduit2", 2, 2.0));
+    magasin.ajouterClient("Chassagne", "Pierre-Nicolas");
+    magasin.ajouterClient("Forgeron", "Nicolas");
+    magasin.ajouterProduitDansPanierClient("NomProduit1", "Chassagne");
+    magasin.ajouterProduitDansPanierClient("NomProduit2", "Chassagne");
+    magasin.supprimerProduitDansPanierClient("NomProduit2", "Chassagne");
+    magasin.modifierQuantiteProduitDansPanierClient("NomProduit1", 2, "Chassagne");
+    magasin.validerCommandeDUnClient("Chassagne");
+    magasin.afficherListeCommandes();
+    magasin.ajouterProduitDansPanierClient("NomProduit2", "Forgeron");
+    magasin.validerCommandeDUnClient("Forgeron");
+    magasin.afficherCommandeAvecNom("Forgeron");
+    magasin.afficherListeProduits();
+    */
+
+    /* Question 8 */
 
 
     return 0;

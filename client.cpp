@@ -24,6 +24,10 @@ std::vector<Produit*> Client::getListeProduitsSelectionnes() const {
     return this->listeProduitsSelectionnes;
 }
 
+std::vector<int> Client::getListeQuantitesProduitsSelectionnes() const {
+    return this->listeQuantitesProduitsSelectionnes;
+}
+
 Client::Client() : identifiantClient(0), prenomClient(""), nomClient(""), listeProduitsSelectionnes(std::vector<Produit*>()) {
 
 }
