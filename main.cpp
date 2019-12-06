@@ -16,6 +16,14 @@ int main() {
     */
 
     /* Question 3 */
+    Magasin magasin;
+    magasin.ajouterProduit(new Produit("NomProduit1", "DescriptionProduit1", 1, 1.0));
+    magasin.ajouterProduit(new Produit("NomProduit2", "DescriptionProduit2", 2, 2.0));
+    magasin.afficherListeProduits();
+    magasin.mettreAJourQuantiteDisponibleProduitAvecNom("NomProduit1", 10);
+    magasin.affcherProduitAvecNom("NomProduit1");
+
+
 
     return 0;
 }

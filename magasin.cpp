@@ -21,15 +21,17 @@ void Magasin::ajouterProduit(Produit *produit) {
 }
 
 void Magasin::afficherListeProduits() {
+    std::cout << "La liste des produits est :" << std::endl;
     for (Produit *produit : this->listeProduits) {
-        std::cout << "Le produit est : " << produit << std::endl;
+        std::cout << "Le produit est : " << *produit << std::endl;
     }
 }
 
 void Magasin::affcherProduitAvecNom(std::string nomProduit) {
+    std::cout << "La produit " << nomProduit << " est :" << std::endl;
     for (Produit *produit : this->listeProduits) {
         if (produit->getTitreProduit() == nomProduit) {
-            std::cout << "Le produit est : " << produit << std::endl;
+            std::cout << "Le produit est : " << *produit << std::endl;
         }
     }
 }
