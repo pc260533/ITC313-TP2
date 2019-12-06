@@ -44,7 +44,19 @@ int main() {
     */
 
     /* Question 5 */
-
+    Magasin magasin;
+    magasin.ajouterProduit(new Produit("NomProduit1", "DescriptionProduit1", 2, 1.0));
+    magasin.ajouterProduit(new Produit("NomProduit2", "DescriptionProduit2", 2, 2.0));
+    magasin.ajouterClient("Chassagne", "Pierre-Nicolas");
+    magasin.ajouterClient("Forgeron", "Nicolas");
+    magasin.afficherListeClients();
+    magasin.afficherClient("Chassagne");
+    magasin.afficherClient(1);
+    magasin.ajouterProduitDansPanierClient("NomProduit1", "Chassagne");
+    magasin.ajouterProduitDansPanierClient("NomProduit2", "Chassagne");
+    magasin.supprimerProduitDansPanierClient("NomProduit2", "Chassagne");
+    magasin.modifierQuantiteProduitDansPanierClient("NomProduit1", 2, "Chassagne");
+    magasin.afficherListeProduits();
 
     return 0;
 }

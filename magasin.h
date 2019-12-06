@@ -19,6 +19,10 @@ private:
     std::vector<Commande*> listeCommandes;
     int compteurClients;
 
+private:
+    Produit* getProduitAvecNomProduit(std::string nomProduit);
+    Client* getClientAvecNomClient(std::string nomClient);
+
 public:
     Magasin();
     ~Magasin();
@@ -27,6 +31,14 @@ public:
     void affcherProduitAvecNom(std::string nomProduit);
     void mettreAJourQuantiteDisponibleProduitAvecNom(std::string nomProduit, int nouvelleQauntiteDisponible);
 
+    void ajouterClient(std::string nomClient, std::string prenomClient);
+    void afficherListeClients();
+    void afficherClient(std::string nomClient);
+    void afficherClient(int identifiantClient);
+
+    void ajouterProduitDansPanierClient(std::string nomProduit, std::string nomClient);
+    void supprimerProduitDansPanierClient(std::string nomProduit, std::string nomClient);
+    void modifierQuantiteProduitDansPanierClient(std::string nomProduit, int nouvelleQuantiteProduit, std::string nomClient);
 };
 
 #endif // MAGASIN_H
