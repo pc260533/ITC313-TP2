@@ -26,6 +26,7 @@ public:
     void setPrenomClient(std::string prenomClient);
     std::string getNomClient() const;
     void setNomClient(std::string prenomClient);
+    std::vector<Produit*> getListeProduitsSelectionnes() const;
     void ajouterProduitAuPanier(Produit *produit);
     void viderLePanier();
     void modifierQuantiteProduitSelectionne(std::string nomProduit, int nombreDeProduits);

@@ -20,6 +20,10 @@ void Client::setNomClient(std::string nomClient) {
     this->nomClient = nomClient;
 }
 
+std::vector<Produit*> Client::getListeProduitsSelectionnes() const {
+    return this->listeProduitsSelectionnes;
+}
+
 Client::Client() : identifiantClient(0), prenomClient(""), nomClient(""), listeProduitsSelectionnes(std::vector<Produit*>()) {
 
 }

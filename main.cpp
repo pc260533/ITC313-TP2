@@ -43,7 +43,7 @@ int main() {
     delete produit2;
     */
 
-    /* Question 5 */
+    /* Question 5
     Magasin magasin;
     magasin.ajouterProduit(new Produit("NomProduit1", "DescriptionProduit1", 2, 1.0));
     magasin.ajouterProduit(new Produit("NomProduit2", "DescriptionProduit2", 2, 2.0));
@@ -57,6 +57,22 @@ int main() {
     magasin.supprimerProduitDansPanierClient("NomProduit2", "Chassagne");
     magasin.modifierQuantiteProduitDansPanierClient("NomProduit1", 2, "Chassagne");
     magasin.afficherListeProduits();
+    */
+
+    /* Question 6
+    Client client(0, "Chassagne", "Pierre-Nicolas");
+    Produit *produit1 = new Produit("NomProduit1", "DescriptionProduit1", 2, 1.0);
+    Produit *produit2 = new Produit("NomProduit2", "DescriptionProduit2", 2, 2.0);
+    client.ajouterProduitAuPanier(produit1);
+    client.ajouterProduitAuPanier(produit2);
+    Commande commande(&client, client.getListeProduitsSelectionnes());
+    std::cout << "La commande est : " << commande << std::endl;
+    delete produit1;
+    delete produit2;
+    */
+
+    /* Question 7 */
+
 
     return 0;
 }
