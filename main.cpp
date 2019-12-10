@@ -2,6 +2,8 @@
 
 #include "magasin.h"
 #include "produit.h"
+#include "client.h"
+#include "commande.h"
 
 using namespace std;
 
@@ -90,7 +92,158 @@ int main() {
     */
 
     /* Question 8 */
-
-
+    Magasin magasin;
+    bool quit = false;
+    while (!quit) {
+        std::string choixMenu = "";
+        std::cout << "Taper 0 pour afficher la gestion des produits." << std::endl;
+        std::cout << "Taper 1 pour afficher la gestion des clients." << std::endl;
+        std::cout << "Taper 2 pour afficher la getion des commandes." << std::endl;
+        std::cout << "Taper 3 pour afficher la gestion du magasin." << std::endl;
+        std::cout << "Taper q pour quitter." << std::endl;
+        std::cin >> choixMenu;
+        if (choixMenu == "q") {
+            quit = true;
+        }
+        else if (choixMenu == "0") {
+            std::string choixMenuGestionProduits = "";
+            std::cout << "Taper 0 pour ajouter un produit." << std::endl;
+            std::cout << "Taper 1 pour afficher tous les produits." << std::endl;
+            std::cout << "Taper 2 pour afficher un produit avec son nom." << std::endl;
+            std::cout << "Taper 3 pour mettre a jour la quantite disponible d'un produit avec le nom." << std::endl;
+            std::cin >> choixMenuGestionProduits;
+            if (choixMenuGestionProduits == "0") {
+                std::string titreProduit = "";
+                std::string descriptionProduit = "";
+                std::string quantiteDisponibleProduit = "";
+                std::string prixUnitaireProduit = "";
+                std::cout << "Entrer le titre du produit :" << std::endl;
+                std::cin >> titreProduit;
+                std::cout << "Entrer la description du produit :" << std::endl;
+                std::cin >> descriptionProduit;
+                std::cout << "Entrer la quantite disponible du produit :" << std::endl;
+                std::cin >> quantiteDisponibleProduit;
+                std::cout << "Entrer le prix unitaire du produit :" << std::endl;
+                std::cin >> prixUnitaireProduit;
+                magasin.ajouterProduit(new Produit(titreProduit, descriptionProduit, std::stoi(quantiteDisponibleProduit) ,std::stod(prixUnitaireProduit)));
+            }
+            else if (choixMenuGestionProduits == "1") {
+                magasin.afficherListeProduits();
+            }
+            else if (choixMenuGestionProduits == "2") {
+                std::string titreProduit = "";
+                std::cout << "Entrer le titre du produit :" << std::endl;
+                std::cin >> titreProduit;
+                magasin.afficherProduitAvecNom(titreProduit);
+            }
+            else if (choixMenuGestionProduits == "3") {
+                std::string titreProduit = "";
+                std::string nouvelleQuantiteProduit;
+                std::cout << "Entrer le titre du produit :" << std::endl;
+                std::cin >> titreProduit;
+                std::cout << "Entrer la nouvelle quantite du produit :" << std::endl;
+                std::cin >> nouvelleQuantiteProduit;
+                magasin.mettreAJourQuantiteDisponibleProduitAvecNom(titreProduit, std::stoi(nouvelleQuantiteProduit));
+            }
+        }
+        else if (choixMenu == "1") {
+            std::string choixMenuGestionClients = "";
+            std::cout << "Taper 0 pour ajouter un client." << std::endl;
+            std::cout << "Taper 1 pour afficher tous les clients." << std::endl;
+            std::cout << "Taper 2 pour afficher un client avec son nom." << std::endl;
+            std::cout << "Taper 3 pour afficher un client avec son identifiant." << std::endl;
+            std::cin >> choixMenuGestionClients;
+            if (choixMenuGestionClients == "0") {
+                std::string nomClient = "";
+                std::string prenomClient = "";
+                std::cout << "Entrer le nom du client :" << std::endl;
+                std::cin >> nomClient;
+                std::cout << "Entrer la prenom du client :" << std::endl;
+                std::cin >> prenomClient;
+                magasin.ajouterClient(nomClient, prenomClient);
+            }
+            else if (choixMenuGestionClients == "1") {
+                magasin.afficherListeClients();
+            }
+            else if (choixMenuGestionClients == "2") {
+                std::string nomClient = "";
+                std::cout << "Entrer le nom du client :" << std::endl;
+                std::cin >> nomClient;
+                magasin.afficherClient(nomClient);
+            }
+            else if (choixMenuGestionClients == "3") {
+                std::string identifiantClient = "";
+                std::cout << "Entrer l'identifiant du client :" << std::endl;
+                std::cin >> identifiantClient;
+                magasin.afficherClient(std::stoi(identifiantClient));
+            }
+        }
+        else if (choixMenu == "2") {
+            std::string choixMenuGestionCommandes = "";
+            std::cout << "Taper 0 pour valider la commande d'un client." << std::endl;
+            std::cout << "Taper 1 pour changer le statut d'une commande." << std::endl;
+            std::cout << "Taper 2 pour afficher toutes les commandes." << std::endl;
+            std::cout << "Taper 3 pour afficher les commandes d'un clients." << std::endl;
+            std::cin >> choixMenuGestionCommandes;
+            if (choixMenuGestionCommandes == "0") {
+                std::string nomClient = "";
+                std::cout << "Entrer le nom du client :" << std::endl;
+                std::cin >> nomClient;
+                magasin.validerCommandeDUnClient(nomClient);
+            }
+            else if (choixMenuGestionCommandes == "1") {
+                std::string identifiantClient = "";
+                std::cout << "Entrer l'identifiant du client :" << std::endl;
+                std::cin >> identifiantClient;
+                magasin.mettreAJourStatutCommande(std::stoi(identifiantClient));
+            }
+            else if (choixMenuGestionCommandes == "2") {
+                magasin.afficherListeCommandes();
+            }
+            else if (choixMenuGestionCommandes == "3") {
+                std::string nomClient = "";
+                std::cout << "Entrer le nom du client :" << std::endl;
+                std::cin >> nomClient;
+                magasin.afficherCommandeAvecNom(nomClient);
+            }
+        }
+        else if (choixMenu == "3") {
+            std::string choixMenuGestionMagasin = "";
+            std::cout << "Taper 0 pour ajouter un produit dans le panier d'un client." << std::endl;
+            std::cout << "Taper 1 pour supprimer un produit dans le panier d'un client." << std::endl;
+            std::cout << "Taper 2 pour modifier la quantité d'un produit selectionne dans le panier d'u client." << std::endl;
+            std::cin >> choixMenuGestionMagasin;
+            if (choixMenuGestionMagasin == "0") {
+                std::string nomProduit = "";
+                std::string nomClient = "";
+                std::cout << "Entrer le nom du produit :" << std::endl;
+                std::cin >> nomProduit;
+                std::cout << "Entrer le nom du client :" << std::endl;
+                std::cin >> nomClient;
+                magasin.ajouterProduitDansPanierClient(nomProduit, nomClient);
+            }
+            else if (choixMenuGestionMagasin == "1") {
+                std::string nomProduit = "";
+                std::string nomClient = "";
+                std::cout << "Entrer le nom du produit :" << std::endl;
+                std::cin >> nomProduit;
+                std::cout << "Entrer le nom du client :" << std::endl;
+                std::cin >> nomClient;
+                magasin.supprimerProduitDansPanierClient(nomProduit, nomClient);
+            }
+            else if (choixMenuGestionMagasin == "2") {
+                std::string nomProduit = "";
+                std::string nomClient = "";
+                std::string nouvelleQuantiteProduit;
+                std::cout << "Entrer le nom du produit :" << std::endl;
+                std::cin >> nomProduit;
+                std::cout << "Entrer la nouvelle quantité du produit " << nomProduit << " à ajouter dans le panier du client.";
+                std::cin >> nouvelleQuantiteProduit;
+                std::cout << "Entrer le nom du client :" << std::endl;
+                std::cin >> nomClient;
+                magasin.modifierQuantiteProduitDansPanierClient(nomProduit, std::stoi(nouvelleQuantiteProduit), nomClient);
+            }
+        }
+    }
     return 0;
 }
