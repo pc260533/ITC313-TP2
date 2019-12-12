@@ -129,8 +129,11 @@ void Magasin::modifierQuantiteProduitDansPanierClient(std::string nomProduit, in
 void Magasin::validerCommandeDUnClient(std::string nomClient) {
     Client *client = this->getClientAvecNomClient(nomClient);
     if (client) {
-        this->listeCommandes.push_back(new Commande(this->compteurCommandes, client, client->getListeProduitsSelectionnes(), client->getListeQuantitesProduitsSelectionnes()));
-        this->compteurCommandes++;
+        if (!client->getListeProduitsSelectionnes().empty()) {
+            this->listeCommandes.push_back(new Commande(this->compteurCommandes, client, client->getListeProduitsSelectionnes(), client->getListeQuantitesProduitsSelectionnes()));
+            client->validerLePanier();
+            this->compteurCommandes++;
+        }
     }
 }
 
@@ -155,4 +158,98 @@ void Magasin::afficherCommandeAvecNom(std::string nomClient) {
             std::cout << "La commande est : " << *commande << std::endl;
         }
     }
+}
+
+void Magasin::initialiserPanierClient(Client *client) {
+    std::vector<Produit*> listeProduitsSelectionnesParLeClient;
+    for (int i = 0; i < client->getListeNomProduitsSelectionnes().size(); i++) {
+        Produit *produit = this->getProduitAvecNomProduit(client->getListeNomProduitsSelectionnes().at(i));
+        if (produit) {
+            listeProduitsSelectionnesParLeClient.push_back(produit);
+        }
+        client->initialiserListeProduitSelectionnes(listeProduitsSelectionnesParLeClient);
+    }
+}
+
+void Magasin::initialiserClientEtListeProduitsCommandesCommande(Commande *commande) {
+    Client *clientCommande = this->getClientAvecNomClient(commande->getNomClient());
+    std::vector<Produit*> listeProduitsCommandesParLeClient;
+    if (clientCommande) {
+        commande->initialiserClient(clientCommande);
+    }
+    for (int i = 0; i < commande->getListeNomProduitsCommandes().size(); i++) {
+        Produit *produit = this->getProduitAvecNomProduit(commande->getListeNomProduitsCommandes().at(i));
+        if (produit) {
+            listeProduitsCommandesParLeClient.push_back(produit);
+        }
+        commande->initialiserListeProduitsCommandes(listeProduitsCommandesParLeClient);
+    }
+}
+
+void Magasin::initialiserCompteurClient() {
+    int maximumIdentifiantClient = 0;
+    for (Client *client : this->listeClients) {
+        if (maximumIdentifiantClient < client->getIdentifiantClient()) {
+            maximumIdentifiantClient = client->getIdentifiantClient();
+        }
+    }
+    this->compteurClients = maximumIdentifiantClient + 1;
+}
+
+void Magasin::initialiserCompteurCommande() {
+    int maximumIdentifiantCommande = 0;
+    for (Commande *commande : this->listeCommandes) {
+        if (maximumIdentifiantCommande < commande->getIdentifiantCommande()) {
+            maximumIdentifiantCommande = commande->getIdentifiantCommande();
+        }
+    }
+    this->compteurCommandes = maximumIdentifiantCommande + 1;
+}
+
+
+std::map<std::string, std::string> Magasin::getMapAttributsNomAttributs() {
+    return std::map<std::string, std::string>();
+}
+
+void Magasin::setValeurAttribut(std::string nomAttribut, std::string valeurAttribut) {
+
+}
+
+std::string Magasin::serializerObjet() {
+    std::string res = "";
+    for (Produit *produit : this->listeProduits) {
+        res += "produit\n" + produit->serializerObjet() + "_produit\n";
+    }
+    for (Client *client : this->listeClients) {
+        res += "client\n" + client->serializerObjet() + "_client\n";
+    }
+    for (Commande *commande : this->listeCommandes) {
+        res += "commande\n" + commande->serializerObjet() + "_commande\n";
+    }
+    return res;
+}
+
+void Magasin::deserialiserObjet(ObjetSerialized objetSerialized) {
+    std::vector<std::string> listeProduitsSerialisesString = objetSerialized.getObjetStringEncapsule("produit");
+    for (int i = 0; i < listeProduitsSerialisesString.size(); i++) {
+        Produit *produit = new Produit();
+        produit->deserialiserObjet(ObjetSerialized(listeProduitsSerialisesString.at(i)));
+        this->listeProduits.push_back(produit);
+    }
+    std::vector<std::string> listeClientsSerialisesString = objetSerialized.getObjetStringEncapsule("client");
+    for (int i = 0; i < listeClientsSerialisesString.size(); i++) {
+        Client *client = new Client();
+        client->deserialiserObjet(ObjetSerialized(listeClientsSerialisesString.at(i)));
+        this->listeClients.push_back(client);
+        this->initialiserPanierClient(client);
+    }
+    this->initialiserCompteurClient();
+    std::vector<std::string> listeCommandesSerialisesString = objetSerialized.getObjetStringEncapsule("commande");
+    for (int i = 0; i < listeCommandesSerialisesString.size(); i++) {
+        Commande *commande = new Commande();
+        commande->deserialiserObjet(ObjetSerialized(listeCommandesSerialisesString.at(i)));
+        this->listeCommandes.push_back(commande);
+        this->initialiserClientEtListeProduitsCommandesCommande(commande);
+    }
+    this->initialiserCompteurCommande();
 }

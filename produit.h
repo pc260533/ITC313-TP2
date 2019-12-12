@@ -1,12 +1,17 @@
 #ifndef PRODUIT_H
 #define PRODUIT_H
 
+#include "iserializable.h"
+
 #include <string>
 #include <iostream>
+#include <vector>
+#include <iostream>
+#include <bits/stdc++.h>
 
 
 
-class Produit {
+class Produit : public ISerializable {
 
 private:
     std::string titreProduit;
@@ -30,6 +35,14 @@ public:
         out << "Nom produit : " << produit.getTitreProduit() << " Quantite disponible : " << std::to_string(produit.getQuantiteDisponibleProduit()) << " Prix unitaire : " << std::to_string(produit.getPrixUnitaire()) << std::endl;
         return out;
     }
+
+    // ISerializable interface
+public:
+    std::map<std::string, std::string> getMapAttributsNomAttributs() override;
+    void setValeurAttribut(std::string nomAttribut, std::string valeurAttribut) override;
+    std::string serializerObjet() override;
+    void deserialiserObjet(ObjetSerialized objetSerialized) override;
+
 };
 
 #endif // PRODUIT_H

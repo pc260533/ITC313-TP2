@@ -2,7 +2,7 @@ CXX        = g++
 CXXFLAGS   = -Wall -Wextra -std=c++11
 DEPFLAGS   = -MMD
 LDFLAGS    = 
-SRCS       = main.cpp client.cpp commande.cpp produit.cpp magasin.cpp
+SRCS       = main.cpp client.cpp commande.cpp produit.cpp magasin.cpp iserializable.cpp objetserialized.cpp serializer.cpp
 OBJS       = $(SRCS:.cpp=.o)
 TARGET     = TP01 
 DEPS	   = $(OBJS:.o=.d)

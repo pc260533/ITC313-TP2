@@ -11,7 +11,7 @@
 
 
 
-class Magasin {
+class Magasin : public ISerializable {
 
 private:
     std::vector<Produit*> listeProduits;
@@ -46,6 +46,18 @@ public:
     void mettreAJourStatutCommande(int identifiantCommande);
     void afficherListeCommandes();
     void afficherCommandeAvecNom(std::string nomClient);
+
+    void initialiserPanierClient(Client *client);
+    void initialiserClientEtListeProduitsCommandesCommande(Commande *commande);
+    void initialiserCompteurClient();
+    void initialiserCompteurCommande();
+
+    // ISerializable interface
+public:
+    std::map<std::string, std::string> getMapAttributsNomAttributs() override;
+    void setValeurAttribut(std::string nomAttribut, std::string valeurAttribut) override;
+    std::string serializerObjet() override;
+    void deserialiserObjet(ObjetSerialized objetSerialized) override;
 
 };
 

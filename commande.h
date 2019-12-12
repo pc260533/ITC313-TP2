@@ -9,7 +9,7 @@
 
 
 
-class Commande {
+class Commande : public ISerializable {
 
 private:
     int identifiantCommande;
@@ -18,11 +18,15 @@ private:
     std::vector<int> listeQuantitesProduitsCommandes;
     bool statutLivreeCommande;
 
+    std::string nomClient;
+    std::vector<std::string> listeNomProduitsCommandes;
+
 public:
     Commande();
     Commande(int identifiantCommande, Client* client, std::vector<Produit*> listeProduitsCommandes, std::vector<int> listeQuantitesProduitsCommandes);
     ~Commande();
     int getIdentifiantCommande() const;
+    void setIdentifiantCommande(int identifiantCommande);
     Client* getClientCommande() const;
     void setClientCommande(Client *clientCommande);
     std::vector<Produit*> getListeProduitsCommandes() const;
@@ -30,6 +34,11 @@ public:
     void setListeProduitsCommandes(std::vector<Produit*> listeProduitsCommandes);
     bool getStatutLivreeCommande() const;
     void setStatutLivreeCommande(bool statutLivreeCommande);
+    std::vector<std::string> getListeNomProduitsCommandes() const;
+    std::string getNomClient() const;
+
+    void initialiserClient(Client *clientCommande);
+    void initialiserListeProduitsCommandes(std::vector<Produit*> listeProduitsCommandes);
 
     friend std::ostream& operator<< (std::ostream& out, const Commande &commande){
         out << "Le client de la commande est : " << *commande.getClientCommande() << std::endl;
@@ -39,6 +48,13 @@ public:
         }
         return out;
     }
+
+    // ISerializable interface
+public:
+    std::map<std::string, std::string> getMapAttributsNomAttributs() override;
+    void setValeurAttribut(std::string nomAttribut, std::string valeurAttribut) override;
+    std::string serializerObjet() override;
+    void deserialiserObjet(ObjetSerialized objetSerialized) override;
 
 };
 
