@@ -32,7 +32,7 @@ Commande *Magasin::getCommandeAvecIdentifiantCommande(int identifiantCommande) {
 
 Magasin::Magasin()
     : listeProduits(std::vector<Produit*>()), listeClients(std::vector<Client*>()), listeCommandes(std::vector<Commande*>()), compteurClients(0), compteurCommandes(0) {
-
+    this->initialisertMapAttributsNomAttributs();
 }
 
 Magasin::~Magasin() {
@@ -206,12 +206,7 @@ void Magasin::initialiserCompteurCommande() {
     this->compteurCommandes = maximumIdentifiantCommande + 1;
 }
 
-
-std::map<std::string, std::string> Magasin::getMapAttributsNomAttributs() {
-    return std::map<std::string, std::string>();
-}
-
-void Magasin::setValeurAttribut(std::string nomAttribut, std::string valeurAttribut) {
+void Magasin::initialisertMapAttributsNomAttributs() {
 
 }
 

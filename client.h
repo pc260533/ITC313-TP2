@@ -53,10 +53,12 @@ public:
 
     // ISerializable interface
 public:
-    void setValeurAttribut(std::string nomAttribut, std::string valeurAttribut) override;
-    std::string serializerObjet() override;
-    void deserialiserObjet(ObjetSerialized objetSerialized) override;
-    std::map<std::string, std::string> getMapAttributsNomAttributs() override;
+    virtual std::string serializerObjet() override;
+    virtual void deserialiserObjet(ObjetSerialized objetSerialized) override;
+
+    // ObjetMapped interface
+public:
+    void initialisertMapAttributsNomAttributs() override;
 
 };
 

@@ -45,12 +45,12 @@ std::vector<std::string> Commande::getListeNomProduitsCommandes() const {
 }
 
 Commande::Commande() : identifiantCommande(0), clientCommande(nullptr), listeProduitsCommandes(std::vector<Produit*>()), listeQuantitesProduitsCommandes(std::vector<int>()), statutLivreeCommande(false) {
-
+    this->initialisertMapAttributsNomAttributs();
 }
 
 Commande::Commande(int identifiantCommande, Client *client, std::vector<Produit*> listeProduitsCommandes, std::vector<int> listeQuantitesProduitsCommandes)
     : identifiantCommande(identifiantCommande), clientCommande(client), listeProduitsCommandes(listeProduitsCommandes), listeQuantitesProduitsCommandes(listeQuantitesProduitsCommandes), statutLivreeCommande(false) {
-
+    this->initialisertMapAttributsNomAttributs();
 }
 
 Commande::~Commande() {
@@ -65,56 +65,12 @@ void Commande::initialiserListeProduitsCommandes(std::vector<Produit *> listePro
     this->listeProduitsCommandes = listeProduitsCommandes;
 }
 
-
-std::map<std::string, std::string> Commande::getMapAttributsNomAttributs() {
-    std::map<std::string, std::string> mapAttributsNomAttributs;
-    mapAttributsNomAttributs.insert(std::pair<std::string, std::string>("identifiantCommande", "identifiantCommande"));
-    mapAttributsNomAttributs.insert(std::pair<std::string, std::string>("nomClient", "clientCommande"));
-    mapAttributsNomAttributs.insert(std::pair<std::string, std::string>("listeNomProduitsCommandes", "listeProduitsCommandes"));
-    mapAttributsNomAttributs.insert(std::pair<std::string, std::string>("listeQuantitesProduitsCommandes", "listeQuantitesProduitsCommandes"));
-    mapAttributsNomAttributs.insert(std::pair<std::string, std::string>("statutLivreeCommande", "statutLivreeCommande"));
-    return mapAttributsNomAttributs;
-}
-
-void Commande::setValeurAttribut(std::string nomAttribut, std::string valeurAttribut) {
-    std::map<std::string, std::string> mapAttributsNomAttributs;
-    mapAttributsNomAttributs = this->getMapAttributsNomAttributs();
-    std::string nomAttibutMappe = "";
-    for (auto &paireAttributAttributMappe : mapAttributsNomAttributs) {
-        if (paireAttributAttributMappe.second == nomAttribut) {
-            nomAttibutMappe = paireAttributAttributMappe.first;
-        }
-    }
-    if (nomAttibutMappe == "identifiantCommande") {
-        this->setIdentifiantCommande(std::stoi(valeurAttribut));
-    }
-    else if (nomAttibutMappe == "nomClient") {
-        this->nomClient = valeurAttribut;
-    }
-    else if (nomAttibutMappe == "listeNomProduitsCommandes") {
-        std::vector<std::string> listeNomProduitsCommandes;
-        std::stringstream listeNomProduitsCommandestringStream(valeurAttribut);
-        std::string nomProduitCommande = "";
-        while (std::getline(listeNomProduitsCommandestringStream, nomProduitCommande, ',')) {
-            listeNomProduitsCommandes.push_back(nomProduitCommande);
-        }
-        this->listeNomProduitsCommandes = listeNomProduitsCommandes;
-    }
-    else if (nomAttibutMappe == "listeQuantitesProduitsCommandes") {
-        std::stringstream listeQuantitesProduitsCommandesStringStream(valeurAttribut);
-        std::string quantiteProduitCommande = "";
-        while (std::getline(listeQuantitesProduitsCommandesStringStream, quantiteProduitCommande, ',')) {
-            this->listeQuantitesProduitsCommandes.push_back(std::stoi(quantiteProduitCommande));
-        }
-    }
-    else if (nomAttibutMappe == "statutLivreeCommande") {
-        if (valeurAttribut == "true") {
-            this->setStatutLivreeCommande(true);
-        }
-        else if (valeurAttribut == "false") {
-            this->setStatutLivreeCommande(false);
-        }
-    }
+void Commande::initialisertMapAttributsNomAttributs() {
+    this->ajouterEntreeMapAttributsNomAttributs("identifiantCommande", "identifiantCommande");
+    this->ajouterEntreeMapAttributsNomAttributs("nomClient", "clientCommande");
+    this->ajouterEntreeMapAttributsNomAttributs("listeNomProduitsCommandes", "listeProduitsCommandes");
+    this->ajouterEntreeMapAttributsNomAttributs("listeQuantitesProduitsCommandes", "listeQuantitesProduitsCommandes");
+    this->ajouterEntreeMapAttributsNomAttributs("statutLivreeCommande", "statutLivreeCommande");
 }
 
 std::string Commande::serializerObjet() {
@@ -148,8 +104,28 @@ std::string Commande::serializerObjet() {
 
 void Commande::deserialiserObjet(ObjetSerialized objetSerialized) {
     objetSerialized.remplirMapNomAttributValeurAttribut();
-    std::map<std::string, std::string> mapAttributsNomAttributsProduit = objetSerialized.getMapNomAttributValeurAttribut();
-    for (auto &paireNomAttributValeurAttributProduit : mapAttributsNomAttributsProduit) {
-        this->setValeurAttribut(paireNomAttributValeurAttributProduit.first, paireNomAttributValeurAttributProduit.second);
+    this->setIdentifiantCommande(std::stoi(objetSerialized.getValeurAttribut(this->getMapAttributsNomAttributs().at("identifiantCommande"))));
+    this->nomClient = objetSerialized.getValeurAttribut(this->getMapAttributsNomAttributs().at("nomClient"));
+
+    std::vector<std::string> listeNomProduitsCommandes;
+    std::stringstream listeNomProduitsCommandestringStream(objetSerialized.getValeurAttribut(this->getMapAttributsNomAttributs().at("listeNomProduitsCommandes")));
+    std::string nomProduitCommande = "";
+    while (std::getline(listeNomProduitsCommandestringStream, nomProduitCommande, ',')) {
+        listeNomProduitsCommandes.push_back(nomProduitCommande);
+    }
+    this->listeNomProduitsCommandes = listeNomProduitsCommandes;
+
+    std::stringstream listeQuantitesProduitsCommandesStringStream(objetSerialized.getValeurAttribut(this->getMapAttributsNomAttributs().at("listeQuantitesProduitsCommandes")));
+    std::string quantiteProduitCommande = "";
+    while (std::getline(listeQuantitesProduitsCommandesStringStream, quantiteProduitCommande, ',')) {
+        this->listeQuantitesProduitsCommandes.push_back(std::stoi(quantiteProduitCommande));
+    }
+
+    std::string statutLivreeCommande = objetSerialized.getValeurAttribut(this->getMapAttributsNomAttributs().at("statutLivreeCommande"));
+    if (statutLivreeCommande == "true") {
+        this->setStatutLivreeCommande(true);
+    }
+    else if (statutLivreeCommande == "false") {
+        this->setStatutLivreeCommande(false);
     }
 }

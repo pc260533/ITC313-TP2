@@ -37,12 +37,12 @@ std::vector<std::string> Client::getListeNomProduitsSelectionnes() const {
 }
 
 Client::Client() : identifiantClient(0), prenomClient(""), nomClient(""), listeProduitsSelectionnes(std::vector<Produit*>()) {
-
+    this->initialisertMapAttributsNomAttributs();
 }
 
 Client::Client(int identifiantClient, std::string prenomClient, std::string nomClient)
     : identifiantClient(identifiantClient), prenomClient(prenomClient), nomClient(nomClient), listeProduitsSelectionnes(std::vector<Produit*>()) {
-
+    this->initialisertMapAttributsNomAttributs();
 }
 
 Client::~Client() {
@@ -102,50 +102,12 @@ void Client::initialiserListeProduitSelectionnes(std::vector<Produit *> listePro
     this->listeProduitsSelectionnes = listeProduitsSelectionnes;
 }
 
-std::map<std::string, std::string> Client::getMapAttributsNomAttributs() {
-    std::map<std::string, std::string> mapAttributsNomAttributs;
-    mapAttributsNomAttributs.insert(std::pair<std::string, std::string>("identifiantClient", "identifiantClient"));
-    mapAttributsNomAttributs.insert(std::pair<std::string, std::string>("nomClient", "nomClient"));
-    mapAttributsNomAttributs.insert(std::pair<std::string, std::string>("prenomClient", "prenomClient"));
-    mapAttributsNomAttributs.insert(std::pair<std::string, std::string>("listeNomProduitsSelectionnes", "listeProduitsSelectionnes"));
-    mapAttributsNomAttributs.insert(std::pair<std::string, std::string>("listeQuantitesProduitsSelectionnes", "listeQuantitesProduitsSelectionnes"));
-    return mapAttributsNomAttributs;
-}
-
-void Client::setValeurAttribut(std::string nomAttribut, std::string valeurAttribut) {
-    std::map<std::string, std::string> mapAttributsNomAttributs;
-    mapAttributsNomAttributs = this->getMapAttributsNomAttributs();
-    std::string nomAttibutMappe = "";
-    for (auto &paireAttributAttributMappe : mapAttributsNomAttributs) {
-        if (paireAttributAttributMappe.second == nomAttribut) {
-            nomAttibutMappe = paireAttributAttributMappe.first;
-        }
-    }
-    if (nomAttibutMappe == "identifiantClient") {
-        this->setIdentifiantClient(std::stoi(valeurAttribut));
-    }
-    else if (nomAttibutMappe == "prenomClient") {
-        this->setPrenomClient(valeurAttribut);
-    }
-    else if (nomAttibutMappe == "nomClient") {
-        this->setNomClient(valeurAttribut);
-    }
-    else if (nomAttibutMappe == "listeNomProduitsSelectionnes") {
-        std::vector<std::string> listeNomProduitsSelectionnes;
-        std::stringstream listeNomProduitsSelectionnesStringStream(valeurAttribut);
-        std::string nomProduitSelectionne = "";
-        while (std::getline(listeNomProduitsSelectionnesStringStream, nomProduitSelectionne, ',')) {
-            listeNomProduitsSelectionnes.push_back(nomProduitSelectionne);
-        }
-        this->listeNomProduitsSelectionnes = listeNomProduitsSelectionnes;
-    }
-    else if (nomAttibutMappe == "listeQuantitesProduitsSelectionnes") {
-        std::stringstream llisteQuantitesProduitsSelectionnesStringStream(valeurAttribut);
-        std::string quantiteProduitSelectionne = "";
-        while (std::getline(llisteQuantitesProduitsSelectionnesStringStream, quantiteProduitSelectionne, ',')) {
-            this->listeQuantitesProduitsSelectionnes.push_back(std::stoi(quantiteProduitSelectionne));
-        }
-    }
+void Client::initialisertMapAttributsNomAttributs() {
+    this->ajouterEntreeMapAttributsNomAttributs("identifiantClient", "identifiantClient");
+    this->ajouterEntreeMapAttributsNomAttributs("nomClient", "nomClient");
+    this->ajouterEntreeMapAttributsNomAttributs("prenomClient", "prenomClient");
+    this->ajouterEntreeMapAttributsNomAttributs("listeNomProduitsSelectionnes", "listeProduitsSelectionnes");
+    this->ajouterEntreeMapAttributsNomAttributs("listeQuantitesProduitsSelectionnes", "listeQuantitesProduitsSelectionnes");
 }
 
 std::string Client::serializerObjet() {
@@ -175,8 +137,21 @@ std::string Client::serializerObjet() {
 
 void Client::deserialiserObjet(ObjetSerialized objetSerialized) {
     objetSerialized.remplirMapNomAttributValeurAttribut();
-    std::map<std::string, std::string> mapAttributsNomAttributsProduit = objetSerialized.getMapNomAttributValeurAttribut();
-    for (auto &paireNomAttributValeurAttributProduit : mapAttributsNomAttributsProduit) {
-        this->setValeurAttribut(paireNomAttributValeurAttributProduit.first, paireNomAttributValeurAttributProduit.second);
+    this->setIdentifiantClient(std::stoi(objetSerialized.getValeurAttribut(this->getMapAttributsNomAttributs().at("identifiantClient"))));
+    this->setPrenomClient(objetSerialized.getValeurAttribut(this->getMapAttributsNomAttributs().at("prenomClient")));
+    this->setNomClient(objetSerialized.getValeurAttribut(this->getMapAttributsNomAttributs().at("nomClient")));
+
+    std::vector<std::string> listeNomProduitsSelectionnes;
+    std::stringstream listeNomProduitsSelectionnesStringStream(objetSerialized.getValeurAttribut(this->getMapAttributsNomAttributs().at("listeNomProduitsSelectionnes")));
+    std::string nomProduitSelectionne = "";
+    while (std::getline(listeNomProduitsSelectionnesStringStream, nomProduitSelectionne, ',')) {
+        listeNomProduitsSelectionnes.push_back(nomProduitSelectionne);
+    }
+    this->listeNomProduitsSelectionnes = listeNomProduitsSelectionnes;
+
+    std::stringstream llisteQuantitesProduitsSelectionnesStringStream(objetSerialized.getValeurAttribut(this->getMapAttributsNomAttributs().at("listeQuantitesProduitsSelectionnes")));
+    std::string quantiteProduitSelectionne = "";
+    while (std::getline(llisteQuantitesProduitsSelectionnesStringStream, quantiteProduitSelectionne, ',')) {
+        this->listeQuantitesProduitsSelectionnes.push_back(std::stoi(quantiteProduitSelectionne));
     }
 }

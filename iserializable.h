@@ -1,6 +1,7 @@
 #ifndef ISERIALIZABLE_H
 #define ISERIALIZABLE_H
 
+#include "objetmapped.h"
 #include "objetserialized.h"
 
 #include <string>
@@ -8,13 +9,11 @@
 
 
 
-class ISerializable {
+class ISerializable : public ObjetMapped {
 
 public:
     ISerializable();
     virtual ~ISerializable();
-    virtual std::map<std::string, std::string> getMapAttributsNomAttributs() = 0;
-    virtual void setValeurAttribut(std::string nomAttribut, std::string valeurAttribut) = 0;
     virtual std::string serializerObjet() = 0;
     virtual void deserialiserObjet(ObjetSerialized objetSerialized) = 0;
 

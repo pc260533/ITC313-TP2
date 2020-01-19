@@ -13,7 +13,7 @@ class Commande : public ISerializable {
 
 private:
     int identifiantCommande;
-    Client* clientCommande;
+    Client *clientCommande;
     std::vector<Produit*> listeProduitsCommandes;
     std::vector<int> listeQuantitesProduitsCommandes;
     bool statutLivreeCommande;
@@ -42,6 +42,11 @@ public:
 
     friend std::ostream& operator<< (std::ostream& out, const Commande &commande){
         out << "Le client de la commande est : " << *commande.getClientCommande() << std::endl;
+        std::string statutLivreeCommande = "non livree";
+        if (commande.getStatutLivreeCommande()) {
+            statutLivreeCommande = "livree";
+        }
+        out << "La statut de la commande est : " << statutLivreeCommande << "." << std::endl;
         out << "La liste des produits de la commande sont : " << std::endl;
         for (int i = 0; i < commande.getListeProduitsCommandes().size(); i++) {
             out << "Quantite : " << commande.getListeQuantitesProduitsCommandes().at(i) << " " << *commande.getListeProduitsCommandes().at(i);
@@ -51,10 +56,13 @@ public:
 
     // ISerializable interface
 public:
-    std::map<std::string, std::string> getMapAttributsNomAttributs() override;
-    void setValeurAttribut(std::string nomAttribut, std::string valeurAttribut) override;
-    std::string serializerObjet() override;
-    void deserialiserObjet(ObjetSerialized objetSerialized) override;
+    virtual std::string serializerObjet() override;
+    virtual void deserialiserObjet(ObjetSerialized objetSerialized) override;
+
+
+    // ObjetMapped interface
+public:
+    virtual void initialisertMapAttributsNomAttributs() override;
 
 };
 

@@ -33,44 +33,19 @@ void Produit::setPrixUnitaire(double prixUnitaire) {
 }
 
 Produit::Produit() : titreProduit(""), descriptionProduit(""), quantiteDisponibleProduit(0), prixUnitaire(0.0) {
-    
+    this->initialisertMapAttributsNomAttributs();
 }
 
 Produit::Produit(std::string titreProduit, std::string descriptionProduit, int quantiteDisponibleProduit, double prixUnitaire)
     : titreProduit(titreProduit), descriptionProduit(descriptionProduit), quantiteDisponibleProduit(quantiteDisponibleProduit), prixUnitaire(prixUnitaire) {
-
+    this->initialisertMapAttributsNomAttributs();
 }
 
-std::map<std::string, std::string> Produit::getMapAttributsNomAttributs() {
-    std::map<std::string, std::string> mapAttributsNomAttributs;
-    mapAttributsNomAttributs.insert(std::pair<std::string, std::string>("titreProduit", "titreProduit"));
-    mapAttributsNomAttributs.insert(std::pair<std::string, std::string>("descriptionProduit", "descriptionProduit"));
-    mapAttributsNomAttributs.insert(std::pair<std::string, std::string>("quantiteDisponibleProduit", "quantiteDisponibleProduit"));
-    mapAttributsNomAttributs.insert(std::pair<std::string, std::string>("prixUnitaire", "prixUnitaire"));
-    return mapAttributsNomAttributs;
-}
-
-void Produit::setValeurAttribut(std::string nomAttribut, std::string valeurAttribut) {
-    std::map<std::string, std::string> mapAttributsNomAttributs;
-    mapAttributsNomAttributs = this->getMapAttributsNomAttributs();
-    std::string nomAttibutMappe = "";
-    for (auto &paireAttributAttributMappe : mapAttributsNomAttributs) {
-        if (paireAttributAttributMappe.second == nomAttribut) {
-            nomAttibutMappe = paireAttributAttributMappe.first;
-        }
-    }
-    if (nomAttibutMappe == "titreProduit") {
-        this->setTitreProduit(valeurAttribut);
-    }
-    else if (nomAttibutMappe == "descriptionProduit") {
-        this->setDescriptionProduit(valeurAttribut);
-    }
-    else if (nomAttibutMappe == "quantiteDisponibleProduit") {
-        this->setQuantiteDisponibleProduit(std::stoi(valeurAttribut));
-    }
-    else if (nomAttibutMappe == "prixUnitaire") {
-        this->setPrixUnitaire(std::stod(valeurAttribut));
-    }
+void Produit::initialisertMapAttributsNomAttributs() {
+    this->ajouterEntreeMapAttributsNomAttributs("titreProduit", "titreProduit");
+    this->ajouterEntreeMapAttributsNomAttributs("descriptionProduit", "descriptionProduit");
+    this->ajouterEntreeMapAttributsNomAttributs("quantiteDisponibleProduit", "quantiteDisponibleProduit");
+    this->ajouterEntreeMapAttributsNomAttributs("prixUnitaire", "prixUnitaire");
 }
 
 std::string Produit::serializerObjet() {
@@ -85,8 +60,8 @@ std::string Produit::serializerObjet() {
 
 void Produit::deserialiserObjet(ObjetSerialized objetSerialized) {
     objetSerialized.remplirMapNomAttributValeurAttribut();
-    std::map<std::string, std::string> mapAttributsNomAttributsProduit = objetSerialized.getMapNomAttributValeurAttribut();
-    for (auto &paireNomAttributValeurAttributProduit : mapAttributsNomAttributsProduit) {
-        this->setValeurAttribut(paireNomAttributValeurAttributProduit.first, paireNomAttributValeurAttributProduit.second);
-    }
+    this->setTitreProduit(objetSerialized.getValeurAttribut(this->getMapAttributsNomAttributs().at("titreProduit")));
+    this->setDescriptionProduit(objetSerialized.getValeurAttribut(this->getMapAttributsNomAttributs().at("descriptionProduit")));
+    this->setQuantiteDisponibleProduit(std::stoi(objetSerialized.getValeurAttribut(this->getMapAttributsNomAttributs().at("quantiteDisponibleProduit"))));
+    this->setPrixUnitaire(std::stod(objetSerialized.getValeurAttribut(this->getMapAttributsNomAttributs().at("prixUnitaire"))));
 }
