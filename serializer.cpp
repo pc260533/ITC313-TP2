@@ -9,9 +9,21 @@ Serializer::~Serializer() {
 }
 
 std::string Serializer::serializeObjetISerializable(ISerializable *objetISerializable) {
-    return objetISerializable->serializerObjet();
+    std::string objetISerializableSerialize = "";
+    try {
+        objetISerializableSerialize = objetISerializable->serializerObjet();
+    }
+    catch (std::exception &exception) {
+        throw ExceptionSerialization();
+    }
+    return objetISerializableSerialize;
 }
 
 void Serializer::deserializeObjetISerializable(std::string objetISerilizableString, ISerializable *objetISerilizable) {
-    objetISerilizable->deserialiserObjet(ObjetSerialized(objetISerilizableString));
+    try {
+        objetISerilizable->deserialiserObjet(ObjetSerialized(objetISerilizableString));
+    }
+    catch (std::exception &exception) {
+        throw ExceptionSerialization();
+    }
 }

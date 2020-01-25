@@ -112,9 +112,9 @@ void Client::initialisertMapAttributsNomAttributs() {
 
 std::string Client::serializerObjet() {
     ObjetSerialized objetSerialized;
-    objetSerialized.ajouterAttributString("identifiantClient", std::to_string(this->getIdentifiantClient()));
-    objetSerialized.ajouterAttributString("prenomClient", this->getPrenomClient());
-    objetSerialized.ajouterAttributString("nomClient", this->getNomClient());
+    objetSerialized.ajouterAttributString(this->getMapAttributsNomAttributs().at("identifiantClient"), std::to_string(this->getIdentifiantClient()));
+    objetSerialized.ajouterAttributString(this->getMapAttributsNomAttributs().at("nomClient"), this->getPrenomClient());
+    objetSerialized.ajouterAttributString(this->getMapAttributsNomAttributs().at("prenomClient"), this->getNomClient());
     std::string listeProduitsSelectionnesString = "";
     for (Produit *produitsSelectionnesString: this->listeProduitsSelectionnes) {
         listeProduitsSelectionnesString += produitsSelectionnesString->getTitreProduit() + ",";
@@ -122,7 +122,7 @@ std::string Client::serializerObjet() {
     if (listeProduitsSelectionnesString != "") {
         listeProduitsSelectionnesString.pop_back();
     }
-    objetSerialized.ajouterAttributString("listeProduitsSelectionnes", listeProduitsSelectionnesString);
+    objetSerialized.ajouterAttributString(this->getMapAttributsNomAttributs().at("listeNomProduitsSelectionnes"), listeProduitsSelectionnesString);
     std::string listeQuantitesProduitsSelectionnesString = "";
     for (int i = 0; i < this->listeQuantitesProduitsSelectionnes.size(); i++) {
         listeQuantitesProduitsSelectionnesString += std::to_string(this->listeQuantitesProduitsSelectionnes.at(i)) + ",";
@@ -130,7 +130,7 @@ std::string Client::serializerObjet() {
     if (listeQuantitesProduitsSelectionnesString != "") {
         listeQuantitesProduitsSelectionnesString.pop_back();
     }
-    objetSerialized.ajouterAttributString("listeQuantitesProduitsSelectionnes", listeQuantitesProduitsSelectionnesString);
+    objetSerialized.ajouterAttributString(this->getMapAttributsNomAttributs().at("listeQuantitesProduitsSelectionnes"), listeQuantitesProduitsSelectionnesString);
     objetSerialized.serialiserLesAttributs();
     return objetSerialized.getObjetString();
 }

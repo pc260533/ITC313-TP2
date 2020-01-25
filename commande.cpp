@@ -75,8 +75,8 @@ void Commande::initialisertMapAttributsNomAttributs() {
 
 std::string Commande::serializerObjet() {
     ObjetSerialized objetSerialized;
-    objetSerialized.ajouterAttributString("identifiantCommande", std::to_string(this->getIdentifiantCommande()));
-    objetSerialized.ajouterAttributString("clientCommande", this->getClientCommande()->getNomClient());
+    objetSerialized.ajouterAttributString(this->getMapAttributsNomAttributs().at("identifiantCommande"), std::to_string(this->getIdentifiantCommande()));
+    objetSerialized.ajouterAttributString(this->getMapAttributsNomAttributs().at("nomClient"), this->getClientCommande()->getNomClient());
     std::string listeProduitsCommandesString = "";
     for (Produit *produitsSelectionnesString: this->listeProduitsCommandes) {
         listeProduitsCommandesString += produitsSelectionnesString->getTitreProduit() + ",";
@@ -84,7 +84,7 @@ std::string Commande::serializerObjet() {
     if (listeProduitsCommandesString != "") {
         listeProduitsCommandesString.pop_back();
     }
-    objetSerialized.ajouterAttributString("listeProduitsCommandes", listeProduitsCommandesString);
+    objetSerialized.ajouterAttributString(this->getMapAttributsNomAttributs().at("listeNomProduitsCommandes"), listeProduitsCommandesString);
     std::string listeQuantitesProduitsCommandesString = "";
     for (int i = 0; i < this->listeQuantitesProduitsCommandes.size(); i++) {
         listeQuantitesProduitsCommandesString += std::to_string(this->listeQuantitesProduitsCommandes.at(i)) + ",";
@@ -92,12 +92,12 @@ std::string Commande::serializerObjet() {
     if (listeQuantitesProduitsCommandesString != "") {
         listeQuantitesProduitsCommandesString.pop_back();
     }
-    objetSerialized.ajouterAttributString("listeQuantitesProduitsCommandes", listeQuantitesProduitsCommandesString);
+    objetSerialized.ajouterAttributString(this->getMapAttributsNomAttributs().at("listeQuantitesProduitsCommandes"), listeQuantitesProduitsCommandesString);
     std::string statutLivreeCommandeString = "false";
     if (this->statutLivreeCommande) {
         statutLivreeCommandeString = "true";
     }
-    objetSerialized.ajouterAttributString("statutLivreeCommande", statutLivreeCommandeString);
+    objetSerialized.ajouterAttributString(this->getMapAttributsNomAttributs().at("statutLivreeCommande"), statutLivreeCommandeString);
     objetSerialized.serialiserLesAttributs();
     return objetSerialized.getObjetString();
 }

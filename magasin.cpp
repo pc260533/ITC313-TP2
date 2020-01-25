@@ -47,8 +47,8 @@ Magasin::~Magasin() {
     }
 }
 
-void Magasin::ajouterProduit(Produit *produit) {
-    this->listeProduits.push_back(produit);
+void Magasin::ajouterProduit(std::string titreProduit, std::string descriptionProduit, int quantiteDisponibleProduit, double prixUnitaireProduit) {
+    this->listeProduits.push_back(new Produit(titreProduit, descriptionProduit, quantiteDisponibleProduit, prixUnitaireProduit));
 }
 
 void Magasin::afficherListeProduits() {
@@ -67,10 +67,10 @@ void Magasin::afficherProduitAvecNom(std::string nomProduit) {
     }
 }
 
-void Magasin::mettreAJourQuantiteDisponibleProduitAvecNom(std::string nomProduit, int nouvelleQauntiteDisponible) {
+void Magasin::mettreAJourQuantiteDisponibleProduitAvecNom(std::string nomProduit, int nouvelleQuantiteDisponible) {
     for (Produit *produit : this->listeProduits) {
         if (produit->getTitreProduit() == nomProduit) {
-            produit->setQuantiteDisponibleProduit(nouvelleQauntiteDisponible);
+            produit->setQuantiteDisponibleProduit(nouvelleQuantiteDisponible);
         }
     }
 }

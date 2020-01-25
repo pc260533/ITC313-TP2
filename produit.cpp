@@ -41,6 +41,10 @@ Produit::Produit(std::string titreProduit, std::string descriptionProduit, int q
     this->initialisertMapAttributsNomAttributs();
 }
 
+Produit::~Produit() {
+
+}
+
 void Produit::initialisertMapAttributsNomAttributs() {
     this->ajouterEntreeMapAttributsNomAttributs("titreProduit", "titreProduit");
     this->ajouterEntreeMapAttributsNomAttributs("descriptionProduit", "descriptionProduit");
@@ -50,10 +54,10 @@ void Produit::initialisertMapAttributsNomAttributs() {
 
 std::string Produit::serializerObjet() {
     ObjetSerialized objetSerialized;
-    objetSerialized.ajouterAttributString("titreProduit", this->getTitreProduit());
-    objetSerialized.ajouterAttributString("descriptionProduit", this->getDescriptionProduit());
-    objetSerialized.ajouterAttributString("quantiteDisponibleProduit", std::to_string(this->getQuantiteDisponibleProduit()));
-    objetSerialized.ajouterAttributString("prixUnitaire", std::to_string(this->getPrixUnitaire()));
+    objetSerialized.ajouterAttributString(this->getMapAttributsNomAttributs().at("titreProduit"), this->getTitreProduit());
+    objetSerialized.ajouterAttributString(this->getMapAttributsNomAttributs().at("descriptionProduit"), this->getDescriptionProduit());
+    objetSerialized.ajouterAttributString(this->getMapAttributsNomAttributs().at("quantiteDisponibleProduit"), std::to_string(this->getQuantiteDisponibleProduit()));
+    objetSerialized.ajouterAttributString(this->getMapAttributsNomAttributs().at("prixUnitaire"), std::to_string(this->getPrixUnitaire()));
     objetSerialized.serialiserLesAttributs();
     return objetSerialized.getObjetString();
 }
