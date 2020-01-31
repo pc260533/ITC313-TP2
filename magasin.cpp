@@ -10,10 +10,10 @@ Produit *Magasin::getProduitAvecNomProduit(std::string nomProduit) {
     return res;
 }
 
-Client *Magasin::getClientAvecNomClient(std::string nomClient) {
+Client *Magasin::getClientAvecNomPrenomClient(std::string nomClient, std::string prenomClient) {
     Client *res = nullptr;
     for (Client *client : this->listeClients) {
-        if (client->getNomClient() == nomClient) {
+        if ((client->getNomClient() == nomClient) && (client->getPrenomClient() == prenomClient)) {
             res = client;
         }
     }
@@ -54,7 +54,7 @@ void Magasin::ajouterProduit(std::string titreProduit, std::string descriptionPr
 void Magasin::afficherListeProduits() {
     std::cout << "La liste des produits est :" << std::endl;
     for (Produit *produit : this->listeProduits) {
-        std::cout << "Le produit est : " << *produit << std::endl;
+        std::cout << "Le produit est : " << std::endl << *produit << std::endl;
     }
 }
 
@@ -62,7 +62,7 @@ void Magasin::afficherProduitAvecNom(std::string nomProduit) {
     std::cout << "Le produit " << nomProduit << " est :" << std::endl;
     for (Produit *produit : this->listeProduits) {
         if (produit->getTitreProduit() == nomProduit) {
-            std::cout << "Le produit est : " << *produit << std::endl;
+            std::cout << "Le produit est : " << std::endl << *produit << std::endl;
         }
     }
 }
@@ -83,15 +83,15 @@ void Magasin::ajouterClient(std::string nomClient, std::string prenomClient) {
 void Magasin::afficherListeClients() {
     std::cout << "La liste des clients est :" << std::endl;
     for (Client *client : this->listeClients) {
-        std::cout << "Le client est : " << *client << std::endl;
+        std::cout << "Le client est : " << std::endl << *client << std::endl;
     }
 }
 
-void Magasin::afficherClient(std::string nomClient) {
+void Magasin::afficherClient(std::string nomClient, std::string prenomClient) {
     std::cout << "Les clients dont le nom est " << nomClient << " est :" << std::endl;
     for (Client *client : this->listeClients) {
-        if (client->getNomClient() == nomClient) {
-            std::cout << "Le client est : " << *client << std::endl;
+        if ((client->getNomClient() == nomClient) && (client->getPrenomClient() == prenomClient)) {
+            std::cout << "Le client est : " << std::endl << *client << std::endl;
         }
     }
 }
@@ -100,34 +100,34 @@ void Magasin::afficherClient(int identifiantClient) {
     std::cout << "Les clients dont l'identifiant est " << std::to_string(identifiantClient) << " est :" << std::endl;
     for (Client *client : this->listeClients) {
         if (client->getIdentifiantClient() == identifiantClient) {
-            std::cout << "Le client est : " << *client << std::endl;
+            std::cout << "Le client est : " << std::endl << *client << std::endl;
         }
     }
 }
 
-void Magasin::ajouterProduitDansPanierClient(std::string nomProduit, std::string nomClient) {
-    Client *client = this->getClientAvecNomClient(nomClient);
+void Magasin::ajouterProduitDansPanierClient(std::string nomProduit, std::string nomClient, std::string prenomClient) {
+    Client *client = this->getClientAvecNomPrenomClient(nomClient, prenomClient);
     if (client) {
         client->ajouterProduitAuPanier(this->getProduitAvecNomProduit(nomProduit));
     }
 }
 
-void Magasin::supprimerProduitDansPanierClient(std::string nomProduit, std::string nomClient) {
-    Client *client = this->getClientAvecNomClient(nomClient);
+void Magasin::supprimerProduitDansPanierClient(std::string nomProduit, std::string nomClient, std::string prenomClient) {
+    Client *client = this->getClientAvecNomPrenomClient(nomClient, prenomClient);
     if (client) {
         client->supprimerProduit(nomProduit);
     }
 }
 
-void Magasin::modifierQuantiteProduitDansPanierClient(std::string nomProduit, int nouvelleQuantiteProduit, std::string nomClient) {
-    Client *client = this->getClientAvecNomClient(nomClient);
+void Magasin::modifierQuantiteProduitDansPanierClient(std::string nomProduit, int nouvelleQuantiteProduit, std::string nomClient, std::string prenomClient) {
+    Client *client = this->getClientAvecNomPrenomClient(nomClient, prenomClient);
     if (client) {
         client->modifierQuantiteProduitSelectionne(nomProduit, nouvelleQuantiteProduit);
     }
 }
 
-void Magasin::validerCommandeDUnClient(std::string nomClient) {
-    Client *client = this->getClientAvecNomClient(nomClient);
+void Magasin::validerCommandeDUnClient(std::string nomClient, std::string prenomClient) {
+    Client *client = this->getClientAvecNomPrenomClient(nomClient, prenomClient);
     if (client) {
         if (!client->getListeProduitsSelectionnes().empty()) {
             this->listeCommandes.push_back(new Commande(this->compteurCommandes, client, client->getListeProduitsSelectionnes(), client->getListeQuantitesProduitsSelectionnes()));
@@ -147,15 +147,15 @@ void Magasin::mettreAJourStatutCommande(int identifiantCommande) {
 void Magasin::afficherListeCommandes() {
     std::cout << "La liste des commandes est :" << std::endl;
     for (Commande *commande : this->listeCommandes) {
-        std::cout << "La commande est : " << *commande << std::endl;
+        std::cout << "La commande est : " << std::endl << *commande << std::endl;
     }
 }
 
-void Magasin::afficherCommandeAvecNom(std::string nomClient) {
+void Magasin::afficherCommandeAvecNom(std::string nomClient, std::string prenomClient) {
     std::cout << "La liste des commandes dont le nom du client est " << nomClient << " est :" << std::endl;
     for (Commande *commande : this->listeCommandes) {
         if (commande->getClientCommande()->getNomClient() == nomClient) {
-            std::cout << "La commande est : " << *commande << std::endl;
+            std::cout << "La commande est : " << std::endl << *commande << std::endl;
         }
     }
 }
@@ -172,7 +172,7 @@ void Magasin::initialiserPanierClient(Client *client) {
 }
 
 void Magasin::initialiserClientEtListeProduitsCommandesCommande(Commande *commande) {
-    Client *clientCommande = this->getClientAvecNomClient(commande->getNomClient());
+    Client *clientCommande = this->getClientAvecNomPrenomClient(commande->getNomClient(), commande->getPrenomClient());
     std::vector<Produit*> listeProduitsCommandesParLeClient;
     if (clientCommande) {
         commande->initialiserClient(clientCommande);

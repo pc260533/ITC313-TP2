@@ -136,13 +136,19 @@ public:
     void initialiserListeProduitSelectionnes(std::vector<Produit*> listeProduitsSelectionnes);
 
     /**
+     * @brief affichageCourt : Renvoyer une chaine de carctère représentant un client pour un affichage simplifié.
+     * @return Une chaine de carctère représentant un client pour un affichage simplifié.
+     */
+    std::string affichageCourt() const;
+
+    /**
      * @brief operator << : Surcharge de l'opérateur de flux de sortie.
      * @param out : Le flux de sortie.
      * @param client : Le client à afficher.
      * @return Le nouveau flux de sortie.
      */
     friend std::ostream& operator<< (std::ostream& out, const Client &client){
-        out << "Identifiant Client : " << std::to_string(client.getIdentifiantClient()) << " Prenom : " << client.getPrenomClient() << " Nom : " << client.getNomClient() << std::endl;
+        out << client.affichageCourt() << std::endl;
         out << "La liste des produits du panier sont : " << std::endl;
         for (int i = 0; i < client.listeProduitsSelectionnes.size(); i++) {
             out << "Quantite : " << client.listeQuantitesProduitsSelectionnes.at(i) << " " << *client.listeProduitsSelectionnes.at(i);

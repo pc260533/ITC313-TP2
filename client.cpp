@@ -102,6 +102,10 @@ void Client::initialiserListeProduitSelectionnes(std::vector<Produit *> listePro
     this->listeProduitsSelectionnes = listeProduitsSelectionnes;
 }
 
+std::string Client::affichageCourt() const {
+    return "Identifiant Client : " + std::to_string(this->getIdentifiantClient()) + " Prenom : " + this->getPrenomClient() + " Nom : " + this->getNomClient();
+}
+
 void Client::initialisertMapAttributsNomAttributs() {
     this->ajouterEntreeMapAttributsNomAttributs("identifiantClient", "identifiantClient");
     this->ajouterEntreeMapAttributsNomAttributs("nomClient", "nomClient");

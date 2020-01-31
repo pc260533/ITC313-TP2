@@ -19,7 +19,8 @@ nomClient:cb
 prenomClient:cb
 _client
 commande
-clientCommande:ca
+nomClientCommande:ca
+prenomClientCommande:ca
 identifiantCommande:0
 listeProduitsCommandes:a
 listeQuantitesProduitsCommandes:1

@@ -56,12 +56,12 @@ int main() {
     magasin.ajouterClient("Chassagne", "Pierre-Nicolas");
     magasin.ajouterClient("Forgeron", "Nicolas");
     magasin.afficherListeClients();
-    magasin.afficherClient("Chassagne");
+    magasin.afficherClient("Chassagne", "Pierre-Nicolas");
     magasin.afficherClient(1);
-    magasin.ajouterProduitDansPanierClient("NomProduit1", "Chassagne");
-    magasin.ajouterProduitDansPanierClient("NomProduit2", "Chassagne");
-    magasin.supprimerProduitDansPanierClient("NomProduit2", "Chassagne");
-    magasin.modifierQuantiteProduitDansPanierClient("NomProduit1", 2, "Chassagne");
+    magasin.ajouterProduitDansPanierClient("NomProduit1", "Chassagne", "Pierre-Nicolas");
+    magasin.ajouterProduitDansPanierClient("NomProduit2", "Chassagne", "Pierre-Nicolas");
+    magasin.supprimerProduitDansPanierClient("NomProduit2", "Chassagne", "Pierre-Nicolas");
+    magasin.modifierQuantiteProduitDansPanierClient("NomProduit1", 2, "Chassagne", "Pierre-Nicolas");
     magasin.afficherListeProduits();
     */
 
@@ -83,15 +83,15 @@ int main() {
     magasin.ajouterProduit("NomProduit2", "DescriptionProduit2", 2, 2.0);
     magasin.ajouterClient("Chassagne", "Pierre-Nicolas");
     magasin.ajouterClient("Forgeron", "Nicolas");
-    magasin.ajouterProduitDansPanierClient("NomProduit1", "Chassagne");
-    magasin.ajouterProduitDansPanierClient("NomProduit2", "Chassagne");
-    magasin.supprimerProduitDansPanierClient("NomProduit2", "Chassagne");
-    magasin.modifierQuantiteProduitDansPanierClient("NomProduit1", 2, "Chassagne");
-    magasin.validerCommandeDUnClient("Chassagne");
+    magasin.ajouterProduitDansPanierClient("NomProduit1", "Chassagne", "Pierre-Nicolas");
+    magasin.ajouterProduitDansPanierClient("NomProduit2", "Chassagne", "Pierre-Nicolas");
+    magasin.supprimerProduitDansPanierClient("NomProduit2", "Chassagne", "Pierre-Nicolas");
+    magasin.modifierQuantiteProduitDansPanierClient("NomProduit1", 2, "Chassagne", "Pierre-Nicolas");
+    magasin.validerCommandeDUnClient("Chassagne", "Pierre-Nicolas");
     magasin.afficherListeCommandes();
-    magasin.ajouterProduitDansPanierClient("NomProduit2", "Forgeron");
-    magasin.validerCommandeDUnClient("Forgeron");
-    magasin.afficherCommandeAvecNom("Forgeron");
+    magasin.ajouterProduitDansPanierClient("NomProduit2", "Forgeron", "Nicolas");
+    magasin.validerCommandeDUnClient("Forgeron", "Nicolas");
+    magasin.afficherCommandeAvecNom("Forgeron", "Nicolas");
     magasin.afficherListeProduits();
     */
 
@@ -101,8 +101,6 @@ int main() {
     std::string cheminFichierSauvegarde = "sauvegardeMagasin.txt";
     bool quit = false;
     std::string choixMenu = "";
-    std::regex regexIntegerPositif("[[:digit:]]+");
-    std::regex regexDoublePositif("([[:digit:]]+)(\\.(([[:digit:]]+)?))?");
     while (!quit) {
         try {
             choixMenu = "";
@@ -203,9 +201,12 @@ int main() {
                 }
                 else if (choixMenuGestionClients == "2") {
                     std::string nomClient = "";
+                    std::string prenomClient = "";
                     std::cout << "Entrer le nom du client :" << std::endl;
                     std::cin >> nomClient;
-                    magasin->afficherClient(nomClient);
+                    std::cout << "Entrer le prenom du client :" << std::endl;
+                    std::cin >> prenomClient;
+                    magasin->afficherClient(nomClient, prenomClient);
                 }
                 else if (choixMenuGestionClients == "3") {
                     std::string identifiantClient = "";
@@ -230,9 +231,12 @@ int main() {
                 std::cin >> choixMenuGestionCommandes;
                 if (choixMenuGestionCommandes == "0") {
                     std::string nomClient = "";
+                    std::string prenomClient = "";
                     std::cout << "Entrer le nom du client :" << std::endl;
                     std::cin >> nomClient;
-                    magasin->validerCommandeDUnClient(nomClient);
+                    std::cout << "Entrer le prenom du client :" << std::endl;
+                    std::cin >> prenomClient;
+                    magasin->validerCommandeDUnClient(nomClient, prenomClient);
                 }
                 else if (choixMenuGestionCommandes == "1") {
                     std::string identifiantClient = "";
@@ -252,38 +256,48 @@ int main() {
                 }
                 else if (choixMenuGestionCommandes == "3") {
                     std::string nomClient = "";
+                    std::string prenomClient = "";
                     std::cout << "Entrer le nom du client :" << std::endl;
                     std::cin >> nomClient;
-                    magasin->afficherCommandeAvecNom(nomClient);
+                    std::cout << "Entrer le prenom du client :" << std::endl;
+                    std::cin >> prenomClient;
+                    magasin->afficherCommandeAvecNom(nomClient, prenomClient);
                 }
             }
             else if (choixMenu == "3") {
                 std::string choixMenuGestionMagasin = "";
                 std::cout << "Taper 0 pour ajouter un produit dans le panier d'un client." << std::endl;
                 std::cout << "Taper 1 pour supprimer un produit dans le panier d'un client." << std::endl;
-                std::cout << "Taper 2 pour modifier la quantite d'un produit selectionne dans le panier d'u client." << std::endl;
+                std::cout << "Taper 2 pour modifier la quantite d'un produit selectionne dans le panier d'un client." << std::endl;
                 std::cin >> choixMenuGestionMagasin;
                 if (choixMenuGestionMagasin == "0") {
                     std::string nomProduit = "";
                     std::string nomClient = "";
+                    std::string prenomClient = "";
                     std::cout << "Entrer le nom du produit :" << std::endl;
                     std::cin >> nomProduit;
                     std::cout << "Entrer le nom du client :" << std::endl;
                     std::cin >> nomClient;
-                    magasin->ajouterProduitDansPanierClient(nomProduit, nomClient);
+                    std::cout << "Entrer le prenom du client :" << std::endl;
+                    std::cin >> prenomClient;
+                    magasin->ajouterProduitDansPanierClient(nomProduit, nomClient, prenomClient);
                 }
                 else if (choixMenuGestionMagasin == "1") {
                     std::string nomProduit = "";
                     std::string nomClient = "";
+                    std::string prenomClient = "";
                     std::cout << "Entrer le nom du produit :" << std::endl;
                     std::cin >> nomProduit;
                     std::cout << "Entrer le nom du client :" << std::endl;
                     std::cin >> nomClient;
-                    magasin->supprimerProduitDansPanierClient(nomProduit, nomClient);
+                    std::cout << "Entrer le prenom du client :" << std::endl;
+                    std::cin >> prenomClient;
+                    magasin->supprimerProduitDansPanierClient(nomProduit, nomClient, prenomClient);
                 }
                 else if (choixMenuGestionMagasin == "2") {
                     std::string nomProduit = "";
                     std::string nomClient = "";
+                    std::string prenomClient = "";
                     std::string nouvelleQuantiteProduit;
                     int nouvelleQuantiteProduitInt = 0;
                     std::cout << "Entrer le nom du produit :" << std::endl;
@@ -298,7 +312,9 @@ int main() {
                     }
                     std::cout << "Entrer le nom du client :" << std::endl;
                     std::cin >> nomClient;
-                    magasin->modifierQuantiteProduitDansPanierClient(nomProduit, nouvelleQuantiteProduitInt, nomClient);
+                    std::cout << "Entrer le prenom du client :" << std::endl;
+                    std::cin >> prenomClient;
+                    magasin->modifierQuantiteProduitDansPanierClient(nomProduit, nouvelleQuantiteProduitInt, nomClient, prenomClient);
                 }
             }
             else if (choixMenu == "4") {

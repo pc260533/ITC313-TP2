@@ -40,6 +40,10 @@ std::string Commande::getNomClient() const {
     return this->nomClient;
 }
 
+std::string Commande::getPrenomClient() const {
+    return this->prenomClient;
+}
+
 std::vector<std::string> Commande::getListeNomProduitsCommandes() const {
     return this->listeNomProduitsCommandes;
 }
@@ -67,7 +71,8 @@ void Commande::initialiserListeProduitsCommandes(std::vector<Produit *> listePro
 
 void Commande::initialisertMapAttributsNomAttributs() {
     this->ajouterEntreeMapAttributsNomAttributs("identifiantCommande", "identifiantCommande");
-    this->ajouterEntreeMapAttributsNomAttributs("nomClient", "clientCommande");
+    this->ajouterEntreeMapAttributsNomAttributs("nomClient", "nomClientCommande");
+    this->ajouterEntreeMapAttributsNomAttributs("prenomClient", "prenomClientCommande");
     this->ajouterEntreeMapAttributsNomAttributs("listeNomProduitsCommandes", "listeProduitsCommandes");
     this->ajouterEntreeMapAttributsNomAttributs("listeQuantitesProduitsCommandes", "listeQuantitesProduitsCommandes");
     this->ajouterEntreeMapAttributsNomAttributs("statutLivreeCommande", "statutLivreeCommande");
@@ -77,6 +82,7 @@ std::string Commande::serializerObjet() {
     ObjetSerialized objetSerialized;
     objetSerialized.ajouterAttributString(this->getMapAttributsNomAttributs().at("identifiantCommande"), std::to_string(this->getIdentifiantCommande()));
     objetSerialized.ajouterAttributString(this->getMapAttributsNomAttributs().at("nomClient"), this->getClientCommande()->getNomClient());
+    objetSerialized.ajouterAttributString(this->getMapAttributsNomAttributs().at("prenomClient"), this->getClientCommande()->getPrenomClient());
     std::string listeProduitsCommandesString = "";
     for (Produit *produitsSelectionnesString: this->listeProduitsCommandes) {
         listeProduitsCommandesString += produitsSelectionnesString->getTitreProduit() + ",";
@@ -106,6 +112,7 @@ void Commande::deserialiserObjet(ObjetSerialized objetSerialized) {
     objetSerialized.remplirMapNomAttributValeurAttribut();
     this->setIdentifiantCommande(std::stoi(objetSerialized.getValeurAttribut(this->getMapAttributsNomAttributs().at("identifiantCommande"))));
     this->nomClient = objetSerialized.getValeurAttribut(this->getMapAttributsNomAttributs().at("nomClient"));
+    this->prenomClient = objetSerialized.getValeurAttribut(this->getMapAttributsNomAttributs().at("prenomClient"));
 
     std::vector<std::string> listeNomProduitsCommandes;
     std::stringstream listeNomProduitsCommandestringStream(objetSerialized.getValeurAttribut(this->getMapAttributsNomAttributs().at("listeNomProduitsCommandes")));

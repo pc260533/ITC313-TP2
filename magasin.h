@@ -47,11 +47,11 @@ private:
      */
     Produit* getProduitAvecNomProduit(std::string nomProduit);
     /**
-     * @brief getClientAvecNomClient : Retourner le client avec le nom du client.
+     * @brief getClientAvecNomClient : Retourner le client avec le nom et prénom du client.
      * @param nomClient : Le nom du client.
      * @return Le client.
      */
-    Client* getClientAvecNomClient(std::string nomClient);
+    Client* getClientAvecNomPrenomClient(std::string nomClient, std::string prenomClient);
     /**
      * @brief getCommandeAvecIdentifiantCommande : Retourner la commande avec l'identifiant de commande.
      * @param identifiantCommande : L'identifiant de commande.
@@ -103,41 +103,45 @@ public:
      */
     void afficherListeClients();
     /**
-     * @brief afficherClient : Afficher le client avec le nom du client.
+     * @brief afficherClient : Afficher le client avec le nom et le prénom du client.
      * @param nomClient Le nom du client.
+     * @param prenomClient Le prénom du client.
      */
-    void afficherClient(std::string nomClient);
+    void afficherClient(std::string nomClient, std::string prenomClient);
     /**
-     * @brief afficherClient : Affciher le client avec l'ifentifiant du client.
+     * @brief afficherClient : Afficher le client avec l'ifentifiant du client.
      * @param identifiantClient : L'identifiant du client.
      */
     void afficherClient(int identifiantClient);
 
     /**
-     * @brief ajouterProduitDansPanierClient : Ajouter le produit dans le panier du client avec le nom du produit et le nom du client.
+     * @brief ajouterProduitDansPanierClient : Ajouter le produit dans le panier du client avec le nom du produit et le nom et prénom du client.
      * @param nomProduit : Le nom du produit.
      * @param nomClient : Le nom du client.
+     * @param prenomClient Le prénom du client.
      */
-    void ajouterProduitDansPanierClient(std::string nomProduit, std::string nomClient);
+    void ajouterProduitDansPanierClient(std::string nomProduit, std::string nomClient, std::string prenomClient);
     /**
-     * @brief supprimerProduitDansPanierClient : Supprimer le produit dans le panier du client avec le nom du produit et le nom du client.
+     * @brief supprimerProduitDansPanierClient : Supprimer le produit dans le panier du client avec le nom du produit et le nom et prénom du client.
      * @param nomProduit : Le nom du produit.
      * @param nomClient : Le nom du client.
+     * @param prenomClient Le prénom du client.
      */
-    void supprimerProduitDansPanierClient(std::string nomProduit, std::string nomClient);
+    void supprimerProduitDansPanierClient(std::string nomProduit, std::string nomClient, std::string prenomClient);
     /**
-     * @brief modifierQuantiteProduitDansPanierClient : Modifier la quantité d'un produit du panier du client avec le nom du produit et le nom du client.
+     * @brief modifierQuantiteProduitDansPanierClient : Modifier la quantité d'un produit du panier du client avec le nom du produit et le nom et prénom du client.
      * @param nomProduit : Le nom du produit.
      * @param nouvelleQuantiteProduit : La nouvelle quantité du produit dans le panier du client.
      * @param nomClient : Le nom du client.
      */
-    void modifierQuantiteProduitDansPanierClient(std::string nomProduit, int nouvelleQuantiteProduit, std::string nomClient);
+    void modifierQuantiteProduitDansPanierClient(std::string nomProduit, int nouvelleQuantiteProduit, std::string nomClient, std::string prenomClient);
 
     /**
      * @brief validerCommandeDUnClient : Valider la commande d'un client avec le nom du client.
      * @param nomClient : Le nom du client.
+     * @param prenomClient Le prénom du client.
      */
-    void validerCommandeDUnClient(std::string nomClient);
+    void validerCommandeDUnClient(std::string nomClient, std::string prenomClient);
     /**
      * @brief mettreAJourStatutCommande : Mettre à jour le statut d'une commande avec l'identifiant de la commande.
      * @param identifiantCommande L'identifiant de la commande.
@@ -150,8 +154,9 @@ public:
     /**
      * @brief afficherCommandeAvecNom : Affciher les commandes d'un client avec le nom du client.
      * @param nomClient : Le nom du client.
+     * @param prenomClient Le prénom du client.
      */
-    void afficherCommandeAvecNom(std::string nomClient);
+    void afficherCommandeAvecNom(std::string nomClient, std::string prenomClient);
 
     /**
      * @brief initialiserPanierClient : Initialiser le panier d'un client pour la désérialisation d'un client.

@@ -42,6 +42,10 @@ private:
      */
     std::string nomClient;
     /**
+     * @brief prenomClient Le prenom du client de la commande pour la sérialisation.
+     */
+    std::string prenomClient;
+    /**
      * @brief listeNomProduitsCommandes : La liste des noms des produits commandés pour la sérialisation.
      */
     std::vector<std::string> listeNomProduitsCommandes;
@@ -118,6 +122,11 @@ public:
      * @return Le nom du client de la commande pour la sérialisation.
      */
     std::string getNomClient() const;
+    /**
+     * @brief getPrenomClient : Retourner le prénom du client de la commande pour la sérialisation.
+     * @return Le prénom du client de la commande pour la sérialisation.
+     */
+    std::string getPrenomClient() const;
 
     /**
      * @brief initialiserClient : Modifier le client de la commande.
@@ -137,7 +146,7 @@ public:
      * @return Le nouveau flux de sortie.
      */
     friend std::ostream& operator<< (std::ostream& out, const Commande &commande){
-        out << "Le client de la commande est : " << *commande.getClientCommande() << std::endl;
+        out << "Le client de la commande est : "  << std::endl << commande.getClientCommande()->affichageCourt() << std::endl;
         std::string statutLivreeCommande = "non livree";
         if (commande.getStatutLivreeCommande()) {
             statutLivreeCommande = "livree";
